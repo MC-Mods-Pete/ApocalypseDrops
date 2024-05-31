@@ -3,13 +3,13 @@
 	"id": "apocalypsedrops",
 	"version": "${version}",
 	"name": "ApocalypseDrops",
-	"description": "",
+	"description": "This Mod add Zombie drops that will be quite useful in a Zombie-Apocalypse.",
 	"authors": [
-		"Me!"
+		"Pete MC Mods, mcmods.pete@gmail.com"
 	],
 	"contact": {
-		"homepage": "",
-		"sources": ""
+		"homepage": "https://github.com/MC-Mods-Pete/ApocalypseDrops",
+		"sources": "https://github.com/MC-Mods-Pete/ApocalypseDrops"
 	},
 	"license": "MIT",
 	"icon": "assets/apocalypsedrops/icon.png",
