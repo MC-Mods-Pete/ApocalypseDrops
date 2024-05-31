@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "apocalypsedrops",
+	"version": "${version}",
+	"name": "ApocalypseDrops",
+	"description": "",
+	"authors": [
+		"Me!"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "MIT",
+	"icon": "assets/apocalypsedrops/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "net.petemc.apocalypsedrops.ApocalypseDrops"
+		],
+		"client": [
+		  "net.petemc.apocalypsedrops.ApocalypseDropsClient"
+		],
+		"fabric-datagen": [
+		  "net.petemc.apocalypsedrops.ApocalypseDropsDataGenerator"
+		]
+	},
+	"mixins": [
+		"apocalypsedrops.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
