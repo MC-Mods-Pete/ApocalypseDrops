@@ -7,6 +7,8 @@ public class ApocalypseDropsConfigs {
     public static SimpleConfig CONFIG;
     private static ApocalypseDropsConfigProvider configs;
 
+    public static boolean ZOMBIE_DROPS_ENABLED;
+    public static boolean HUSK_DROPS_ENABLED;
     public static float CHANCE_GUNPOWDER;
     public static float CHANCE_BONE;
     public static float CHANCE_STRING;
@@ -28,6 +30,8 @@ public class ApocalypseDropsConfigs {
     }
 
     private static void createConfigs() {
+        configs.addKeyValuePair(new Pair<>("zombie.drops.enabled", true), "(true/false)");
+        configs.addKeyValuePair(new Pair<>("husk.drops.enabled", true), "(true/false)");
         configs.addKeyValuePair(new Pair<>("gunpowder.drop.chance", 0.2f), "(value: 0.0 - 1.0)");
         configs.addKeyValuePair(new Pair<>("bone.drop.chance", 0.12f), "(value: 0.0 - 1.0)");
         configs.addKeyValuePair(new Pair<>("string.drop.chance", 0.06f), "(value: 0.0 - 1.0)");
@@ -41,6 +45,8 @@ public class ApocalypseDropsConfigs {
     }
 
     private static void assignConfigs() {
+        ZOMBIE_DROPS_ENABLED = CONFIG.getOrDefault("zombie.drops.enabled", true);
+        HUSK_DROPS_ENABLED = CONFIG.getOrDefault("husk.drops.enabled", true);
         CHANCE_GUNPOWDER = (float) CONFIG.getOrDefault("gunpowder.drop.chance", 0.2f);
         CHANCE_BONE = (float) CONFIG.getOrDefault("bone.drop.chance", 0.12f);
         CHANCE_STRING = (float) CONFIG.getOrDefault("string.drop.chance", 0.06f);
