@@ -17,7 +17,7 @@ public class ApocalypseDropsConfigs {
     public static float CHANCE_ENDER_PEARL;
     public static float CHANCE_POTATO;
     public static float CHANCE_CARROT;
-    public static float CHANCE_BLAZE_POWDER;
+    public static float CHANCE_BLAZE_ROD;
     public static float CHANCE_NETHER_WART;
 
     public static void registerConfigs() {
@@ -40,7 +40,7 @@ public class ApocalypseDropsConfigs {
         configs.addKeyValuePair(new Pair<>("ender_pearl.drop.chance", 0.02f), "(value: 0.0 - 1.0)");
         configs.addKeyValuePair(new Pair<>("potato.drop.chance", 0.01f), "(value: 0.0 - 1.0)");
         configs.addKeyValuePair(new Pair<>("carrot.drop.chance", 0.01f), "(value: 0.0 - 1.0)");
-        configs.addKeyValuePair(new Pair<>("blaze_powder.drop.chance", 0.0f), "(value: 0.0 - 1.0)");
+        configs.addKeyValuePair(new Pair<>("blaze_rod.drop.chance", 0.0f), "(value: 0.0 - 1.0)");
         configs.addKeyValuePair(new Pair<>("nether_wart.drop.chance", 0.0f), "(value: 0.0 - 1.0)");
     }
 
@@ -55,7 +55,7 @@ public class ApocalypseDropsConfigs {
         CHANCE_ENDER_PEARL = (float) CONFIG.getOrDefault("ender_pearl.drop.chance", 0.02f);
         CHANCE_POTATO = (float) CONFIG.getOrDefault("potato.drop.chance", 0.01f);
         CHANCE_CARROT = (float) CONFIG.getOrDefault("carrot.drop.chance", 0.01f);
-        CHANCE_BLAZE_POWDER = (float) CONFIG.getOrDefault("blaze_powder.drop.chance", 0.0f);
+        CHANCE_BLAZE_ROD = (float) CONFIG.getOrDefault("blaze_rod.drop.chance", 0.0f);
         CHANCE_NETHER_WART = (float) CONFIG.getOrDefault("nether_wart.drop.chance", 0.0f);
 
         System.out.println("All " + configs.getConfigsList().size() + " have been set properly");

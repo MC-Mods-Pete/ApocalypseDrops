@@ -93,11 +93,11 @@ public class ApocalypseDropsLootTableModifiers {
                     tableBuilder.pool(poolBuilderCarrot.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_BLAZE_POWDER > 0.0) {
+                if (ApocalypseDropsConfigs.CHANCE_BLAZE_ROD > 0.0) {
                     LootPool.Builder poolBuilderBlazePowder = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_BLAZE_POWDER))
-                            .with(ItemEntry.builder(Items.BLAZE_POWDER))
+                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_BLAZE_ROD))
+                            .with(ItemEntry.builder(Items.BLAZE_ROD))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderBlazePowder.build());
                 }
