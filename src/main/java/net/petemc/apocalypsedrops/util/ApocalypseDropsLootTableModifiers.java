@@ -9,7 +9,7 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.util.Identifier;
-import net.petemc.apocalypsedrops.config.ApocalypseDropsConfigs;
+import net.petemc.apocalypsedrops.config.ApocalypseDropsConfig;
 
 public class ApocalypseDropsLootTableModifiers {
     private static final Identifier ZOMBIE_ID =
@@ -19,93 +19,93 @@ public class ApocalypseDropsLootTableModifiers {
 
     public static void modifyLootTables() {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
-            if ((ZOMBIE_ID.equals(id) && ApocalypseDropsConfigs.ZOMBIE_DROPS_ENABLED) ||
-                    (HUSK_ID.equals(id) && ApocalypseDropsConfigs.HUSK_DROPS_ENABLED)) {
-                if (ApocalypseDropsConfigs.CHANCE_ENDER_PEARL > 0.0) {
+            if ((ZOMBIE_ID.equals(id) && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
+                    (HUSK_ID.equals(id) && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
+                if (ApocalypseDropsConfig.INSTANCE.enderPearlDropChance > 0.0) {
                     LootPool.Builder poolBuilderEnderPerls = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_ENDER_PEARL))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.enderPearlDropChance))
                             .with(ItemEntry.builder(Items.ENDER_PEARL))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderEnderPerls.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_BONE > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.boneDropChance > 0.0) {
                     LootPool.Builder poolBuilderBones = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_BONE))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.boneDropChance))
                             .with(ItemEntry.builder(Items.BONE))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderBones.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_GUNPOWDER > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.gunpowderDropChance > 0.0) {
                     LootPool.Builder poolBuilderGunpowder = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_GUNPOWDER))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.gunpowderDropChance))
                             .with(ItemEntry.builder(Items.GUNPOWDER))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderGunpowder.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_STRING > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.stringDropChance > 0.0) {
                     LootPool.Builder poolBuilderString = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_STRING))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.stringDropChance))
                             .with(ItemEntry.builder(Items.STRING))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderString.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_SPIDER_EYE > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.spiderEyeDropChance > 0.0) {
                     LootPool.Builder poolBuilderSpiderEye = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_SPIDER_EYE))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.spiderEyeDropChance))
                             .with(ItemEntry.builder(Items.SPIDER_EYE))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderSpiderEye.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_PHANTOM_MEMBRANE > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.phantomMembraneDropChance > 0.0) {
                     LootPool.Builder poolBuilderPhantomMembrane = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_PHANTOM_MEMBRANE))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.phantomMembraneDropChance))
                             .with(ItemEntry.builder(Items.PHANTOM_MEMBRANE))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderPhantomMembrane.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_POTATO > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.potatoDropChance > 0.0) {
                     LootPool.Builder poolBuilderPotato = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_POTATO))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.potatoDropChance))
                             .with(ItemEntry.builder(Items.POTATO))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderPotato.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_CARROT > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.carrotDropChance > 0.0) {
                     LootPool.Builder poolBuilderCarrot = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_CARROT))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.carrotDropChance))
                             .with(ItemEntry.builder(Items.CARROT))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderCarrot.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_BLAZE_ROD > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.blazeRodDropChance > 0.0) {
                     LootPool.Builder poolBuilderBlazePowder = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_BLAZE_ROD))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.blazeRodDropChance))
                             .with(ItemEntry.builder(Items.BLAZE_ROD))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderBlazePowder.build());
                 }
 
-                if (ApocalypseDropsConfigs.CHANCE_NETHER_WART > 0.0) {
+                if (ApocalypseDropsConfig.INSTANCE.netherWartDropChance > 0.0) {
                     LootPool.Builder poolBuilderNetherWart = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
-                            .conditionally(RandomChanceLootCondition.builder(ApocalypseDropsConfigs.CHANCE_NETHER_WART))
+                            .conditionally(RandomChanceLootCondition.builder((float) ApocalypseDropsConfig.INSTANCE.netherWartDropChance))
                             .with(ItemEntry.builder(Items.NETHER_WART))
                             .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
                     tableBuilder.pool(poolBuilderNetherWart.build());
