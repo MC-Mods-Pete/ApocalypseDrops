@@ -1,6 +1,6 @@
 package net.petemc.apocalypsedrops.util;
 
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -14,9 +14,9 @@ import net.petemc.apocalypsedrops.config.ApocalypseDropsConfig;
 public class ApocalypseDropsLootTableModifiers {
 
     public static void modifyLootTables() {
-        LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
-            if ((EntityType.ZOMBIE.getLootTableId() == id && source.isBuiltin() && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
-                (EntityType.HUSK.getLootTableId()   == id && source.isBuiltin() && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if ((EntityType.ZOMBIE.getLootTableKey().isPresent() && EntityType.ZOMBIE.getLootTableKey().get() == key && source.isBuiltin() && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
+                (EntityType.HUSK.getLootTableKey().isPresent()   && EntityType.HUSK.getLootTableKey().get()   == key && source.isBuiltin() && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
                 if (ApocalypseDropsConfig.INSTANCE.enderPearlDropChance > 0.0) {
                     LootPool.Builder poolBuilderEnderPerls = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
