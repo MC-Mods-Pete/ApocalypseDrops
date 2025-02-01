@@ -15,8 +15,8 @@ public class ApocalypseDropsLootTableModifiers {
 
     public static void modifyLootTables() {
         LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
-            if ((EntityType.ZOMBIE.getLootTableId() == id && source.isBuiltin() && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
-                (EntityType.HUSK.getLootTableId()   == id && source.isBuiltin() && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
+            if ((EntityType.ZOMBIE.getLootTableId() == id && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
+                (EntityType.HUSK.getLootTableId()   == id && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
                 if (ApocalypseDropsConfig.INSTANCE.enderPearlDropChance > 0.0) {
                     LootPool.Builder poolBuilderEnderPerls = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
