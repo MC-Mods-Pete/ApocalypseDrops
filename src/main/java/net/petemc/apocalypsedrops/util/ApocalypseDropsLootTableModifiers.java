@@ -1,7 +1,6 @@
 package net.petemc.apocalypsedrops.util;
 
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.condition.RandomChanceLootCondition;
@@ -13,10 +12,17 @@ import net.petemc.apocalypsedrops.config.ApocalypseDropsConfig;
 
 public class ApocalypseDropsLootTableModifiers {
 
+    private static final String ZOMBIE_TABLE = "minecraft:entities/zombie";
+    private static final String HUSK_TABLE = "minecraft:entities/husk";
+
     public static void modifyLootTables() {
-        LootTableEvents.MODIFY.register((id, tableBuilder, source) -> {
-            if ((EntityType.ZOMBIE.getLootTableId() == id && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
-                (EntityType.HUSK.getLootTableId()   == id && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
+        // The tables are matched by their id instead of EntityType#getLootTableId/getLootTableKey,
+        // because that method changes its return type between Minecraft versions. The loot.v2 event
+        // has the same signature from Minecraft 1.20.5 onwards, so one jar covers all of them.
+        LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
+            String id = key.getValue().toString();
+            if ((ZOMBIE_TABLE.equals(id) && ApocalypseDropsConfig.INSTANCE.enableZombieDrops) ||
+                (HUSK_TABLE.equals(id)   && ApocalypseDropsConfig.INSTANCE.enableHuskDrops)) {
                 if (ApocalypseDropsConfig.INSTANCE.enderPearlDropChance > 0.0) {
                     LootPool.Builder poolBuilderEnderPerls = LootPool.builder()
                             .rolls(ConstantLootNumberProvider.create(1))
