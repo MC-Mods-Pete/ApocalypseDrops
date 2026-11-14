@@ -1,14 +1,14 @@
 package net.petemc.apocalypsedrops.util;
 
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.entry.ItemEntry;
-import net.minecraft.loot.function.SetCountLootFunction;
-import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.loot.provider.number.UniformLootNumberProvider;
-import net.minecraft.loot.LootTable;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.petemc.apocalypsedrops.config.ApocalypseDropsConfig;
 
 import java.util.function.BooleanSupplier;
@@ -20,11 +20,8 @@ public class ApocalypseDropsLootTableModifiers {
     private static final String HUSK_TABLE = "minecraft:entities/husk";
 
     public static void modifyLootTables() {
-        // The tables are matched by their id instead of EntityType#getLootTableId/getLootTableKey,
-        // because that method changes its return type between Minecraft versions. The loot.v2 event
-        // has the same signature from Minecraft 1.20.5 onwards, so one jar covers all of them.
-        LootTableEvents.MODIFY.register((key, tableBuilder, source) -> {
-            String id = key.getValue().toString();
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            String id = key.identifier().toString();
             if (ZOMBIE_TABLE.equals(id)) {
                 addDrops(tableBuilder, () -> ApocalypseDropsConfig.INSTANCE.enableZombieDrops);
             } else if (HUSK_TABLE.equals(id)) {
@@ -49,11 +46,11 @@ public class ApocalypseDropsLootTableModifiers {
     }
 
     private static void addDrop(LootTable.Builder tableBuilder, BooleanSupplier enabled, Item item, DoubleSupplier chance) {
-        LootPool.Builder poolBuilder = LootPool.builder()
-                .rolls(ConstantLootNumberProvider.create(1))
-                .conditionally(() -> new ConfigChanceLootCondition(enabled, chance))
-                .with(ItemEntry.builder(item))
-                .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 1.0f)).build());
-        tableBuilder.pool(poolBuilder);
+        LootPool.Builder poolBuilder = LootPool.lootPool()
+                .setRolls(ConstantValue.exactly(1))
+                .when(() -> new ConfigChanceLootCondition(enabled, chance))
+                .add(LootItem.lootTableItem(item))
+                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 1.0f)));
+        tableBuilder.withPool(poolBuilder);
     }
 }

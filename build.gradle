@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.8.9'
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -7,12 +7,16 @@ version = project.mod_version
 group = project.maven_group
 mod_name = project.mod_name
 mod_id = project.mod_id
-fabric_version_range = project.fabric_version_range
-mc_version_range = project.mc_version_range
+loader_version = project.loader_version
+fabric_api_version = project.fabric_api_version
+minecraft_version = project.minecraft_version
+minecraft_version_range = project.minecraft_version_range
 java_version_range = project.java_version_range
+cloth_config_version = project.cloth_config_version
+modmenu_version = project.modmenu_version
 
 base {
-	archivesName = project.mod_id
+	archivesName = project.archives_base_name
 }
 
 repositories {
@@ -21,44 +25,61 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-	maven { url "https://maven.shedaniel.me/"}
-	maven { url "https://maven.terraformersmc.com/releases/"}
+	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.terraformersmc.com/releases/" }
+
+	// curse maven
 }
 
-fabricApi {
-	configureDataGeneration()
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"apocalypsedrops" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "com.terraformersmc:modmenu:11.0.1"
-	modApi("me.shedaniel.cloth:cloth-config-fabric:15.0.127") {
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	implementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	api("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
+	// Cloth Config is not bundled: each Cloth version only supports specific Minecraft versions,
+	// so it is a required dependency the player installs in the matching version (see fabric.mod.json)
 }
 
 processResources {
 	inputs.property "version", version
 	inputs.property "mod_id", mod_id
 	inputs.property "mod_name", mod_name
-	inputs.property "fabric_version_range", fabric_version_range
-	inputs.property "mc_version_range", mc_version_range
+	inputs.property "loader_version", loader_version
+	inputs.property "minecraft_version", minecraft_version
+	inputs.property "minecraft_version_range", minecraft_version_range
 	inputs.property "java_version_range", java_version_range
+	inputs.property "cloth_config_version", cloth_config_version
+	inputs.property "modmenu_version", modmenu_version
 
-	filesMatching("fabric.mod.json") {
-		expand "version": version, "mod_id": mod_id, "mod_name": mod_name, "fabric_version_range": fabric_version_range,
-				"mc_version_range": mc_version_range, "java_version_range": java_version_range
+			filesMatching("fabric.mod.json") {
+		expand "version": version, "mod_id": mod_id, "mod_name": mod_name, "loader_version": loader_version,
+				"minecraft_version": minecraft_version, "minecraft_version_range": minecraft_version_range, "java_version_range": java_version_range,
+				"cloth_config_version" : cloth_config_version, "modmenu_version": modmenu_version
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
@@ -67,13 +88,15 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
+	inputs.property "archivesName", project.base.archivesName
+
 	from("LICENSE") {
-		rename { "${it}_${project.base.archivesName.get()}"}
+		rename { "${it}_${inputs.properties.archivesName}"}
 	}
 }
 
@@ -81,19 +104,16 @@ jar {
 publishing {
 	publications {
 		create("mavenJava", MavenPublication) {
-			artifactId = project.mod_id
+			artifactId = project.archives_base_name
 			from components.java
 		}
 	}
 
 	// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
 	repositories {
-		maven {
-			url = project.findProperty("maven.url") ?: System.getenv("MAVEN_URL")
-			credentials {
-				username=project.findProperty("maven.user") ?: System.getenv("MAVEN_USER")
-				password=project.findProperty("maven.password") ?: System.getenv("MAVEN_PASSWORD")
-			}
-		}
+		// Add repositories to publish to here.
+		// Notice: This block does NOT have the same function as the block in the top level.
+		// The repositories here will be used for publishing your artifact, not for
+		// retrieving dependencies.
 	}
 }
