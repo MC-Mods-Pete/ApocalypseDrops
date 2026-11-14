@@ -17,29 +17,20 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-          "net.petemc.apocalypsedrops.ApocalypseDrops"
-		],
-		"client": [
-		  "net.petemc.apocalypsedrops.ApocalypseDropsClient"
-		],
-		"fabric-datagen": [
-		  "net.petemc.apocalypsedrops.ApocalypseDropsDataGenerator"
+			"net.petemc.apocalypsedrops.ApocalypseDrops"
 		],
 		"modmenu": [
-		  "net.petemc.apocalypsedrops.util.ModMenuIntegration"
+			"net.petemc.apocalypsedrops.util.ModMenuIntegration"
 		]
 	},
-	"mixins": [
-		"apocalypsedrops.mixins.json"
-	],
 	"depends": {
-		"fabricloader": "${fabric_version_range}",
-		"minecraft": "${mc_version_range}",
+		"fabricloader": ">=${loader_version}",
+		"minecraft": "${minecraft_version_range}",
 		"java": "${java_version_range}",
 		"fabric-api": "*",
-		"cloth-config": ">=14.0.126"
+		"cloth-config": ">=${cloth_config_version}"
 	},
 	"suggests": {
-		"modmenu": ">=10.0.0"
+		"modmenu": ">=${modmenu_version}"
 	}
 }

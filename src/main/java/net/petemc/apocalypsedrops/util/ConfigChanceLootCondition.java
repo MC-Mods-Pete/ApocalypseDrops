@@ -1,9 +1,9 @@
 package net.petemc.apocalypsedrops.util;
 
-import net.minecraft.loot.condition.LootCondition;
-import net.minecraft.loot.condition.LootConditionTypes;
-import net.minecraft.loot.context.LootContext;
-import net.minecraft.loot.condition.LootConditionType;
+import com.mojang.serialization.MapCodec;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -13,9 +13,9 @@ import java.util.function.DoubleSupplier;
  * A condition with a fixed chance would be baked into the loot table when it is loaded, so
  * changes made in the config screen would only apply after a reload or restart.
  * The condition is only added at runtime and never serialized, so it reuses the vanilla
- * random chance type.
+ * random chance codec.
  */
-public class ConfigChanceLootCondition implements LootCondition {
+public class ConfigChanceLootCondition implements LootItemCondition {
     private final BooleanSupplier enabled;
     private final DoubleSupplier chance;
 
@@ -25,8 +25,8 @@ public class ConfigChanceLootCondition implements LootCondition {
     }
 
     @Override
-    public LootConditionType getType() {
-        return LootConditionTypes.RANDOM_CHANCE;
+    public MapCodec<LootItemRandomChanceCondition> codec() {
+        return LootItemRandomChanceCondition.MAP_CODEC;
     }
 
     @Override
