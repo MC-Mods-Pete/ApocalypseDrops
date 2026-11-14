@@ -3,6 +3,7 @@ package net.petemc.apocalypsedrops.loot;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,6 +20,8 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import net.petemc.apocalypsedrops.config.ApocalypseDropsConfig;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 /**
  * Adds the apocalypse drops to the loot of zombies and husks. The chances are read from the config every time
  * the loot is rolled.
@@ -27,7 +30,7 @@ public class ApocalypseDropsLootModifier extends LootModifier {
     public static final MapCodec<ApocalypseDropsLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
             codecStart(inst).apply(inst, ApocalypseDropsLootModifier::new));
 
-    public ApocalypseDropsLootModifier(LootItemCondition[] conditionsIn, int priority) {
+    public ApocalypseDropsLootModifier(Optional<Holder<LootItemCondition>> conditionsIn, int priority) {
         super(conditionsIn, priority);
     }
 
@@ -35,7 +38,7 @@ public class ApocalypseDropsLootModifier extends LootModifier {
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         // The entity is checked instead of the loot table id. Drowned, zombie villagers etc. are other
         // entity types and stay unchanged.
-        Entity entity = context.getOptionalParameter(LootContextParams.THIS_ENTITY);
+        Entity entity = context.getOptional(LootContextParams.THIS_ENTITY);
         EntityType<?> type = entity == null ? null : entity.getType();
         boolean enabled = (type == EntityTypes.ZOMBIE && ApocalypseDropsConfig.ENABLE_ZOMBIE_DROPS.get())
                 || (type == EntityTypes.HUSK && ApocalypseDropsConfig.ENABLE_HUSK_DROPS.get());
