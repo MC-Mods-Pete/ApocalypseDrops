@@ -1,23 +1,36 @@
 package net.petemc.apocalypsedrops;
 
-import net.fabricmc.api.ModInitializer;
-
+import com.mojang.logging.LogUtils;
+import com.mojang.serialization.Codec;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import net.petemc.apocalypsedrops.config.ApocalypseDropsConfig;
-import net.petemc.apocalypsedrops.util.ApocalypseDropsLootTableModifiers;
+import net.petemc.apocalypsedrops.loot.ApocalypseDropsLootModifier;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class ApocalypseDrops implements ModInitializer {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final String MOD_ID = "apocalypsedrops";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+@Mod(ApocalypseDrops.MOD_ID)
+public class ApocalypseDrops {
+    public static final String MOD_ID = "apocalypsedrops";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
-	@Override
-	public void onInitialize() {
-		LOGGER.info("Initializing Apocalypse Drops Mod");
-		ApocalypseDropsConfig.init();
-		ApocalypseDropsLootTableModifiers.modifyLootTables();
-	}
+    private static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIERS =
+            DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MOD_ID);
+
+    @SuppressWarnings("unused")
+    private static final RegistryObject<Codec<? extends IGlobalLootModifier>> APOCALYPSE_DROPS =
+            LOOT_MODIFIERS.register("apocalypse_drops", ApocalypseDropsLootModifier.CODEC);
+
+    public ApocalypseDrops() {
+        LOGGER.info("Initializing Apocalypse Drops Mod");
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        LOOT_MODIFIERS.register(modEventBus);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ApocalypseDropsConfig.SPEC);
+    }
 }
