@@ -28,6 +28,17 @@ public class ApocalypseDrops {
     public ApocalypseDrops(IEventBus modEventBus, ModContainer modContainer) {
         LOGGER.info("Initializing Apocalypse Drops Mod");
         LOOT_MODIFIERS.register(modEventBus);
-        modContainer.registerConfig(ModConfig.Type.COMMON, ApocalypseDropsConfig.SPEC);
+        modContainer.registerConfig(configType(), ApocalypseDropsConfig.SPEC, MOD_ID + "-common.toml");
+    }
+
+    /**
+     * FML renamed ModConfig.Type.COMMON to LOCAL during 26.3. Looked up by name so that one jar works with both.
+     */
+    private static ModConfig.Type configType() {
+        try {
+            return ModConfig.Type.valueOf("COMMON");
+        } catch (IllegalArgumentException e) {
+            return ModConfig.Type.valueOf("LOCAL");
+        }
     }
 }
