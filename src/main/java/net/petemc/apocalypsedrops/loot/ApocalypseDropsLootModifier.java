@@ -26,8 +26,8 @@ public class ApocalypseDropsLootModifier extends LootModifier {
     public static final MapCodec<ApocalypseDropsLootModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
             codecStart(inst).apply(inst, ApocalypseDropsLootModifier::new));
 
-    public ApocalypseDropsLootModifier(LootItemCondition[] conditionsIn) {
-        super(conditionsIn);
+    public ApocalypseDropsLootModifier(LootItemCondition[] conditionsIn, int priority) {
+        super(conditionsIn, priority);
     }
 
     @Override
