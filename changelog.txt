@@ -1,0 +1,10 @@
+ApocalypseDrops Changelog
+=========================
+
+1.0.2-Forge-mc1.20.1
+--------------------
+New
+ - First release for Forge (Minecraft 1.20.1, Forge 47 or newer).
+ - Zombies and Husks now also drop items that are useful in a zombie apocalypse. Every item has its own drop chance in the config.
+ - Settings are in config/apocalypsedrops-common.toml: drop chance per item and switches for Zombie and Husk drops.
+ - Needs no additional mods.
