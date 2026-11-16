@@ -1,0 +1,10 @@
+ApocalypseDrops Changelog
+=========================
+
+1.0.2-NeoForge-mc26.3
+---------------------
+New
+ - First release for NeoForge (Minecraft 26.3 and newer).
+ - Zombies and Husks now also drop items that are useful in a zombie apocalypse. Every item has its own drop chance in the config.
+ - Settings are in config/apocalypsedrops-common.toml and in the in-game config screen of the mod list: drop chance per item and switches for Zombie and Husk drops.
+ - Needs no additional mods.
