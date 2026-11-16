@@ -1,0 +1,11 @@
+ApocalypseDrops Changelog
+=========================
+
+1.0.2-Fabric-mc1.21.1
+---------------------
+Changes
+ - One jar now covers Minecraft 1.20.5 to 1.21.x. The separate builds for 1.20.6 and 1.21.3 are merged into this one.
+ - Drop chances and the enable options changed in the config screen now apply immediately, no restart or /reload needed.
+ - Cloth Config is no longer bundled with the mod. Install Cloth Config 14.0.126 or newer yourself (also required on servers). Mod Menu stays optional.
+Fixes
+ - Removed a placeholder entry from the suggested mods.
