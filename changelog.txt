@@ -1,0 +1,8 @@
+ApocalypseDrops Changelog
+=========================
+
+1.0.2-Fabric-mc26.1
+-------------------
+New
+ - Support for Minecraft 26.1 and 26.2. Requires Fabric API and Cloth Config; Mod Menu is optional.
+ - Drop chances and the enable options changed in the config screen apply immediately, no restart or /reload needed.
